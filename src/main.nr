@@ -1,18 +1,17 @@
 global N = 9;
-global N2= 81;
+global N2 = 81;
 
 
 //checks the lines of the solution are valid
-fn check_line(a: [u4;N2]) -> bool
-{
+fn check_line(a: [u4; N2]) -> bool {
     for i in 0..N {
       let mut line = [0;N];
-        for j in 0..N {
-          line[j] = a[N*i+j];
-        };
+      for j in 0..N {
+        line[j] = a[N*i+j];
+      };
       check_cards(line);
     };
- true
+  true
 }
 
 
@@ -54,7 +53,7 @@ fn check_square(a: [u4;N2]) -> bool
 fn check_puzzle(solution: [u4;N2], puzzle: [u4;N2]) -> bool {
     for i in 0..N {
         for j in 0..N {
-            constrain (puzzle[N*i+j] == 0) | (puzzle[N*i+j] == solution[N*i+j]) ;
+            constrain (puzzle[N*i+j] == 0) | (puzzle[N*i+j] == solution[N*i+j]);
         };
     };
 	true
@@ -62,32 +61,29 @@ fn check_puzzle(solution: [u4;N2], puzzle: [u4;N2]) -> bool {
 
 
 fn check_cards(a: [u4;N]) {
-  check_cards_best(a);
+  check_cards_base(a);
 }
 
-//best (but not optimal) version
-fn check_cards_best(a: [u4;N])
-{
-    let mut s : Field = 0;
-    for k in 1..N+1 {
-        let mut p : Field = 1;
-  	    for j in 0..N {
-          p = p * (k -  a[j] as Field);
-        };
-        s = s + p;
-    };
+// fn check_cards_best(a: [u4; N]) {
+//     let mut s : Field = 0;
+//     for k in 1..N+1 {
+//         let mut p : Field = 1;
+//   	    for j in 0..N {
+//           p = p * (k - a[j] as Field);
+//         };
+//         s = s + p;
+//     };
 
-    let mut p : Field = 1;
-    for j in 0..N-1 {
-        p = p * (a[j] as Field);
-    };
-    constrain p != 0;
-    constrain s == 0;
-}
+//     let mut p : Field = 1;
+//     for j in 0..N-1 {
+//         p = p * (a[j] as Field);
+//     };
+//     constrain p != 0;
+//     constrain s == 0;
+// }
 
 //basic version
-fn check_cards_base(a: [u4;9])
-{
+fn check_cards_base(a: [u4;9]) {
   for i in 0..9 {
       constrain !((a[i] <1 )| (a[i]>9));
       for k in 0..i {
@@ -102,7 +98,7 @@ fn check_cards_sort(a: [u4;9])
   constrain sort(a) == [1,2,3,4,5,6,7,8,9];
 }
 
-//without comparisons
+//without comparisons 
 fn check_cards_plus(a: [u4;N])
 {
   let mut s = 0 as Field;
